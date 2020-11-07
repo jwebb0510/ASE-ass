@@ -65,6 +65,7 @@
             this.ProgramCommandWindow.Size = new System.Drawing.Size(453, 856);
             this.ProgramCommandWindow.TabIndex = 2;
             this.ProgramCommandWindow.Text = "";
+            this.ProgramCommandWindow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProgramCommandWindow_KeyDown);
             // 
             // commandline
             // 
