@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ProgrammingLanguageEnvironmentforASE
 {
@@ -48,10 +49,78 @@ namespace ProgrammingLanguageEnvironmentforASE
 
         }
 
-        private void buttonRun_Click(object sender, EventArgs e)
+        private void buttonRun_Click(object sender, EventArgs e) //what happens when run is clicked - main part of code
         {
-            SendKeys.Send("{ENTER}");
-            Console.WriteLine("RUN CLICKED");
+            Console.WriteLine("RUN PROGRAM ");
+            int lineno = 0;
+            string Commandc1 = ProgramCommandWindow.Text.Trim().ToLower();
+            //string[] consolec1 = Command;
+            //while ((ProgramCommandWindow = Commandc1.ReadLine()) != "end")
+            StringReader strReader = new StringReader(Commandc1);
+
+            while(true)
+            {
+                Commandc1 = strReader.ReadLine(); //reads line of text
+                while (Commandc1 != null)
+                {
+                    //Commandc1 = strReader.ReadLine();
+                    string[] Commandc = Commandc1.Split(' ', ',');
+                    while (Commandc[lineno].Equals("moveto") == true)
+                    {
+                        if (!Int32.TryParse(Commandc[lineno + 1], out positionx)) ; //translate string to int
+                        if (!Int32.TryParse(Commandc[lineno + 2], out positiony)) ;
+
+                        Picturebox.xPos = positionx;
+                        Picturebox.yPos = positiony;
+                        Commandc1 = strReader.ReadLine();
+                        Refresh();//refresh display
+                        lineno++;                        
+                    }
+                     while (Commandc[0].Equals("line") == true) //what happens if draw line command is used
+                    {
+                        if (!Int32.TryParse(Commandc[lineno + 1], out positionx)) ; //translate string to int
+                        if (!Int32.TryParse(Commandc[lineno + 2], out positiony)) ;
+
+                        Picturebox.toX = positionx;
+                        Picturebox.toY = positiony;
+                        MyOutputWindow.DrawLine(Picturebox.toX, Picturebox.toY);
+                        Console.WriteLine("COMMAND - DRAW LINE");
+                        Commandc1 = strReader.ReadLine();
+                        Refresh();//refresh display
+                        
+                        lineno++;
+                    }
+                    while (Commandc[0].Equals("square") == true) //what happens if draw square command is used
+                    {
+                        if (!Int32.TryParse(Commandc[lineno + 1], out positionshape)) ; //translate string to int 
+
+                        Picturebox.sizes = positionshape;
+                        MyOutputWindow.DrawSquare(Picturebox.sizes);
+                        Console.WriteLine("COMMAND - DRAW SQUARE");
+                        Commandc1 = strReader.ReadLine();
+                        Refresh();//refresh display
+
+                        lineno++;
+
+                    }
+                          
+                    break;
+                }
+                //else while (Commandc1 == "end")
+                //{
+                 //   break;
+                //}
+
+                Refresh();//refresh display
+                break;
+            }
+
+
+            
+                
+            
+
+
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
@@ -172,7 +241,7 @@ namespace ProgrammingLanguageEnvironmentforASE
             
         }
         private void ProgramCommandWindow_KeyDown(object sender, KeyEventArgs e)
-        {
+        {/*
             string Command2 = ProgramCommandWindow.Text.Trim().ToLower();
             //Console.WriteLine("Key Down"); <- Prints in console when a key is pressed (annoying)
             //int positionx1;
@@ -235,7 +304,7 @@ namespace ProgrammingLanguageEnvironmentforASE
                 ProgramCommandWindow.Text = ""; //clears text from command line
                 Console.WriteLine("CONSOLE CLEARED");
                 Refresh();//refresh display
-            }
+            }*/
             
         }
 
